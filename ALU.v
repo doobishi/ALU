@@ -1,0 +1,131 @@
+`timescale 1ns/1ns
+// module ALU( dataA, dataB, Signal, dataOut, reset )
+module alu( ctl, dataA, dataB, dataOut, zero ) ;
+input [2:0] ctl  ;
+input [31:0] dataA ;
+input [31:0] dataB ;
+
+wire [5:0] Signal ;
+output [31:0] dataOut ;
+output zero ;
+//Signal ( 6-bits)? AND  : 36 OR   : 37 ADD  : 32 SUB  : 34 SLT  : 42
+wire [31:0] temp ;// next cout 
+parameter AND = 6'b100100 ;
+parameter OR  = 6'b100101 ;
+parameter ADD = 6'b100000 ;
+parameter SUB = 6'b100010 ;
+parameter SLT = 6'b101010 ;
+wire [31:0] tempdataOut ;
+wire [31:0] dataOut ;
+wire Binvert ;
+wire [1:0]Operation ;
+wire CarryIn ;
+
+assign Signal = ( ctl == 3'b000 ) ? AND : ( ctl == 3'b001 ) ? OR :  ( ctl == 3'b010 ) ? ADD : ( ctl == 3'b110 ) ? SUB : SLT ;
+
+assign Binvert = (Signal == AND ) ? 1'b0 : ( Signal == SUB ) ? 1'b1 : ( Signal == OR ) ? 1'b0 :(Signal == ADD ) ? 1'b0 : 1'b1 ;
+// default Signal == SLT
+assign Operation = ( Signal == AND ) ? 2'b00 : ( Signal == SUB ) ? 2'b10 : ( Signal == OR ) ? 2'b01 : (Signal == ADD ) ? 2'b10 :2'b11 ;
+// default Signal == SLT
+assign CarryIn = ( Signal == AND ) ? 1'b0 : ( Signal == SUB ) ? 1'b1 : ( Signal == OR ) ? 1'b0 :(Signal == ADD ) ? 1'b0 : 1'b1 ;
+// default Signal == SLT        
+		Alu1bit alu1(.a( dataA[0] ),.b( dataB[0] ),.INVERTB(Binvert),.cin(CarryIn),.SELECT(Operation),.out( tempdataOut[0] ),.cout(temp[0]) ) ;
+		Alu1bit alu2(.a( dataA[1] ),.b( dataB[1] ),.INVERTB(Binvert),.cin(temp[0]),.SELECT(Operation),.out( tempdataOut[1] ),.cout(temp[1]) ) ;
+		Alu1bit alu3(.a( dataA[2] ),.b( dataB[2] ),.INVERTB(Binvert),.cin(temp[1]),.SELECT(Operation),.out( tempdataOut[2] ),.cout(temp[2]) ) ;
+		Alu1bit alu4(.a( dataA[3] ),.b( dataB[3] ),.INVERTB(Binvert),.cin(temp[2]),.SELECT(Operation),.out( tempdataOut[3] ),.cout(temp[3]) ) ;
+		Alu1bit alu5(.a( dataA[4] ),.b( dataB[4] ),.INVERTB(Binvert),.cin(temp[3]),.SELECT(Operation),.out( tempdataOut[4] ),.cout(temp[4]) ) ;
+		Alu1bit alu6(.a( dataA[5] ),.b( dataB[5] ),.INVERTB(Binvert),.cin(temp[4]),.SELECT(Operation),.out( tempdataOut[5] ),.cout(temp[5]) ) ;
+		Alu1bit alu7(.a( dataA[6] ),.b( dataB[6] ),.INVERTB(Binvert),.cin(temp[5]),.SELECT(Operation),.out( tempdataOut[6] ),.cout(temp[6]) ) ;
+		Alu1bit alu8(.a( dataA[7] ),.b( dataB[7] ),.INVERTB(Binvert),.cin(temp[6]),.SELECT(Operation),.out( tempdataOut[7] ),.cout(temp[7]) ) ;
+		Alu1bit alu9(.a( dataA[8] ),.b( dataB[8] ),.INVERTB(Binvert),.cin(temp[7]),.SELECT(Operation),.out( tempdataOut[8] ),.cout(temp[8]) ) ;
+		Alu1bit alu10(.a( dataA[9] ),.b( dataB[9] ),.INVERTB(Binvert),.cin(temp[8]),.SELECT(Operation),.out( tempdataOut[9] ),.cout(temp[9]) ) ;
+		Alu1bit alu11(.a( dataA[10] ),.b( dataB[10] ),.INVERTB(Binvert),.cin(temp[9]),.SELECT(Operation),.out( tempdataOut[10] ),.cout(temp[10]) ) ;
+		Alu1bit alu12(.a( dataA[11] ),.b( dataB[11] ),.INVERTB(Binvert),.cin(temp[10]),.SELECT(Operation),.out( tempdataOut[11] ),.cout(temp[11]) ) ;
+		Alu1bit alu13(.a( dataA[12] ),.b( dataB[12] ),.INVERTB(Binvert),.cin(temp[11]),.SELECT(Operation),.out( tempdataOut[12] ),.cout(temp[12]) ) ;
+		Alu1bit alu14(.a( dataA[13] ),.b( dataB[13] ),.INVERTB(Binvert),.cin(temp[12]),.SELECT(Operation),.out( tempdataOut[13] ),.cout(temp[13]) ) ;
+		Alu1bit alu15(.a( dataA[14] ),.b( dataB[14] ),.INVERTB(Binvert),.cin(temp[13]),.SELECT(Operation),.out( tempdataOut[14] ),.cout(temp[14]) ) ;
+		Alu1bit alu16(.a( dataA[15] ),.b( dataB[15] ),.INVERTB(Binvert),.cin(temp[14]),.SELECT(Operation),.out( tempdataOut[15] ),.cout(temp[15]) ) ;
+		Alu1bit alu17(.a( dataA[16] ),.b( dataB[16] ),.INVERTB(Binvert),.cin(temp[15]),.SELECT(Operation),.out( tempdataOut[16] ),.cout(temp[16]) ) ;
+		Alu1bit alu18(.a( dataA[17] ),.b( dataB[17] ),.INVERTB(Binvert),.cin(temp[16]),.SELECT(Operation),.out( tempdataOut[17] ),.cout(temp[17]) ) ;
+		Alu1bit alu19(.a( dataA[18] ),.b( dataB[18] ),.INVERTB(Binvert),.cin(temp[17]),.SELECT(Operation),.out( tempdataOut[18] ),.cout(temp[18]) ) ;
+		Alu1bit alu20(.a( dataA[19] ),.b( dataB[19] ),.INVERTB(Binvert),.cin(temp[18]),.SELECT(Operation),.out( tempdataOut[19] ),.cout(temp[19]) ) ;
+		Alu1bit alu21(.a( dataA[20] ),.b( dataB[20] ),.INVERTB(Binvert),.cin(temp[19]),.SELECT(Operation),.out( tempdataOut[20] ),.cout(temp[20]) ) ;
+		Alu1bit alu22(.a( dataA[21] ),.b( dataB[21] ),.INVERTB(Binvert),.cin(temp[20]),.SELECT(Operation),.out( tempdataOut[21] ),.cout(temp[21]) ) ;
+		Alu1bit alu23(.a( dataA[22] ),.b( dataB[22] ),.INVERTB(Binvert),.cin(temp[21]),.SELECT(Operation),.out( tempdataOut[22] ),.cout(temp[22]) ) ;
+		Alu1bit alu24(.a( dataA[23] ),.b( dataB[23] ),.INVERTB(Binvert),.cin(temp[22]),.SELECT(Operation),.out( tempdataOut[23] ),.cout(temp[23]) ) ;
+		Alu1bit alu25(.a( dataA[24] ),.b( dataB[24] ),.INVERTB(Binvert),.cin(temp[23]),.SELECT(Operation),.out( tempdataOut[24] ),.cout(temp[24]) ) ;
+		Alu1bit alu26(.a( dataA[25] ),.b( dataB[25] ),.INVERTB(Binvert),.cin(temp[24]),.SELECT(Operation),.out( tempdataOut[25] ),.cout(temp[25]) ) ;
+		Alu1bit alu27(.a( dataA[26] ),.b( dataB[26] ),.INVERTB(Binvert),.cin(temp[25]),.SELECT(Operation),.out( tempdataOut[26] ),.cout(temp[26]) ) ;
+		Alu1bit alu28(.a( dataA[27] ),.b( dataB[27] ),.INVERTB(Binvert),.cin(temp[26]),.SELECT(Operation),.out( tempdataOut[27] ),.cout(temp[27]) ) ;
+		Alu1bit alu29(.a( dataA[28] ),.b( dataB[28] ),.INVERTB(Binvert),.cin(temp[27]),.SELECT(Operation),.out( tempdataOut[28] ),.cout(temp[28]) ) ;
+		Alu1bit alu30(.a( dataA[29] ),.b( dataB[29] ),.INVERTB(Binvert),.cin(temp[28]),.SELECT(Operation),.out( tempdataOut[29] ),.cout(temp[29]) ) ;
+		Alu1bit alu31(.a( dataA[30] ),.b( dataB[30] ),.INVERTB(Binvert),.cin(temp[29]),.SELECT(Operation),.out( tempdataOut[30] ),.cout(temp[30]) ) ;
+		Alu1bit alu32(.a( dataA[31] ),.b( dataB[31] ),.INVERTB(Binvert),.cin(temp[30]),.SELECT(Operation),.out( tempdataOut[31] ),.cout(temp[31]) ) ;
+wire SLTout[31:0] ;
+assign SLTout[0] = tempdataOut[31] ;
+assign SLTout[1] = 1'b0 ;
+assign SLTout[2] = 1'b0 ;
+assign SLTout[3] = 1'b0 ;
+assign SLTout[4] = 1'b0 ;
+assign SLTout[5] = 1'b0 ;
+assign SLTout[6] = 1'b0 ;
+assign SLTout[7] = 1'b0 ;
+assign SLTout[8] = 1'b0 ;
+assign SLTout[9] = 1'b0 ;
+assign SLTout[10] = 1'b0 ;
+assign SLTout[11] = 1'b0 ;
+assign SLTout[12] = 1'b0 ;
+assign SLTout[13] = 1'b0 ;
+assign SLTout[14] = 1'b0 ;
+assign SLTout[15] = 1'b0 ;
+assign SLTout[16] = 1'b0 ;
+assign SLTout[17] = 1'b0 ;
+assign SLTout[18] = 1'b0 ;
+assign SLTout[19] = 1'b0 ;
+assign SLTout[20] = 1'b0 ;
+assign SLTout[21] = 1'b0 ;
+assign SLTout[22] = 1'b0 ;
+assign SLTout[23] = 1'b0 ;
+assign SLTout[24] = 1'b0 ;
+assign SLTout[25] = 1'b0 ;
+assign SLTout[26] = 1'b0 ;
+assign SLTout[27] = 1'b0 ;
+assign SLTout[28] = 1'b0 ;
+assign SLTout[29] = 1'b0 ;
+assign SLTout[30] = 1'b0 ;
+assign SLTout[31] = 1'b0 ;
+
+assign dataOut[0] = ( Signal == SLT ) ? SLTout[0] :  tempdataOut[0] ;
+assign dataOut[1] = ( Signal == SLT ) ? SLTout[1] :  tempdataOut[1] ;
+assign dataOut[2] = ( Signal == SLT ) ? SLTout[2] :  tempdataOut[2] ;
+assign dataOut[3] = ( Signal == SLT ) ? SLTout[3] :  tempdataOut[3] ;
+assign dataOut[4] = ( Signal == SLT ) ? SLTout[4] :  tempdataOut[4] ;
+assign dataOut[5] = ( Signal == SLT ) ? SLTout[5] :  tempdataOut[5] ;
+assign dataOut[6] = ( Signal == SLT ) ? SLTout[6] :  tempdataOut[6] ;
+assign dataOut[7] = ( Signal == SLT ) ? SLTout[7] :  tempdataOut[7] ;
+assign dataOut[8] = ( Signal == SLT ) ? SLTout[8] :  tempdataOut[8] ;
+assign dataOut[9] = ( Signal == SLT ) ? SLTout[9] :  tempdataOut[7] ;
+assign dataOut[10] = ( Signal == SLT ) ? SLTout[10] :  tempdataOut[10] ;
+assign dataOut[11] = ( Signal == SLT ) ? SLTout[11] :  tempdataOut[11] ;
+assign dataOut[12] = ( Signal == SLT ) ? SLTout[12] :  tempdataOut[12] ;
+assign dataOut[13] = ( Signal == SLT ) ? SLTout[13] :  tempdataOut[13] ;
+assign dataOut[14] = ( Signal == SLT ) ? SLTout[14] :  tempdataOut[14] ;
+assign dataOut[15] = ( Signal == SLT ) ? SLTout[15] :  tempdataOut[15] ;
+assign dataOut[16] = ( Signal == SLT ) ? SLTout[16] :  tempdataOut[16] ;
+assign dataOut[17] = ( Signal == SLT ) ? SLTout[17] :  tempdataOut[17] ;
+assign dataOut[18] = ( Signal == SLT ) ? SLTout[18] :  tempdataOut[18] ;
+assign dataOut[19] = ( Signal == SLT ) ? SLTout[19] :  tempdataOut[19] ;
+assign dataOut[20] = ( Signal == SLT ) ? SLTout[20] :  tempdataOut[20] ;
+assign dataOut[21] = ( Signal == SLT ) ? SLTout[21] :  tempdataOut[21] ;
+assign dataOut[22] = ( Signal == SLT ) ? SLTout[22] :  tempdataOut[22] ;
+assign dataOut[23] = ( Signal == SLT ) ? SLTout[23] :  tempdataOut[23] ;
+assign dataOut[24] = ( Signal == SLT ) ? SLTout[24] :  tempdataOut[24] ;
+assign dataOut[25] = ( Signal == SLT ) ? SLTout[25] :  tempdataOut[25] ;
+assign dataOut[26] = ( Signal == SLT ) ? SLTout[26] :  tempdataOut[26] ;
+assign dataOut[27] = ( Signal == SLT ) ? SLTout[27] :  tempdataOut[27] ;
+assign dataOut[28] = ( Signal == SLT ) ? SLTout[28] :  tempdataOut[28] ;
+assign dataOut[29] = ( Signal == SLT ) ? SLTout[29] :  tempdataOut[29] ;
+assign dataOut[30] = ( Signal == SLT ) ? SLTout[30] :  tempdataOut[30] ;
+assign dataOut[31] = ( Signal == SLT ) ? SLTout[31] :  tempdataOut[31] ;
+assign zero = ( dataOut == 32'd0 )? 1'b1 : 1'b0 ; 
+endmodule
